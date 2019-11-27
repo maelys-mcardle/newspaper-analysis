@@ -8,7 +8,7 @@ This was written for `Python 3.8`.
 
 To download the articles, run the `download-pages.py` script.
 
-It will download them from the `url-list.txt` file.
+It will download them from, by default, the `url-list.txt` file.
 
 This will load them all, by default, into the `downloads` directory.
 

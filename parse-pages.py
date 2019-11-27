@@ -87,7 +87,7 @@ def extract_article(html_file):
             "topics": [topic["text"] for topic in metadata["page"]["klangoo"]["keyTopics"]] if "kangloo" in metadata["page"] else [],
             "summary": metadata["page"]["klangoo"]["summary"] if "kangloo" in metadata["page"] else None,
             "word-count": metadata["page"]["wc"],
-            "content": list(extract_article_content(parsed_html))
+            "content": extract_article_content(parsed_html)
         }
 
 def extract_article_content(parsed_html):
@@ -95,10 +95,50 @@ def extract_article_content(parsed_html):
     Extracts each paragraph from the article content.
     Article body is contained in <div class="story-content" itemprop="articleBody">
     """
+
+    # Load paragraphs.
+    paragraphs = []
     for article_body in parsed_html.find_all(itemprop="articleBody"):
         for paragraph in article_body.find_all('p'):
             if not paragraph.find_parent('blockquote'):
-                yield paragraph.get_text()
+                paragraph_text = paragraph.get_text()
+                sanitized_paragraph = sanitize_paragraph(paragraph_text)
+                paragraphs.append(sanitized_paragraph)
+    
+    # Remove empty paragraphs.
+    paragraphs = [i for i in paragraphs if i] 
+
+    return paragraphs
+
+
+def sanitize_paragraph(paragraph):
+    """
+    Remove undesired elements from the paragraph.
+    This includes removing [np_storybar] and [np-related] pseudo-elements.
+    """
+    paragraph = strip_pseudo_tag("np_storybar", paragraph)
+    paragraph = paragraph.replace("[np-related]", "")
+    return paragraph
+
+def strip_pseudo_tag(tag_name, paragraph):
+    """
+    Strips a pseudo-tag from a paragarph.
+    """
+
+    cleansed_paragraph = ""
+    start = paragraph.find(f"[{tag_name}")
+    end = paragraph.find(f"[/{tag_name}]")
+
+    if (start == -1 and end == -1):
+        cleansed_paragraph = paragraph
+    else:
+        if (start >= 0):
+            cleansed_paragraph += paragraph[:start]
+
+        if (end >= 0):
+            cleansed_paragraph += paragraph[end + len(f"[/{tag_name}]"):]
+    
+    return cleansed_paragraph
 
 def write_to_yaml_file(yaml_file, article):
     """
