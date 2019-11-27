@@ -1,6 +1,6 @@
-# National Post Article Loader & Analysis
+# Newspaper Article Analysis
 
-This code loads articles from the National Post for data analysis.
+This code loads articles from a particular newspaper for data analysis.
 
 This was written for `Python 3.8`.
 
