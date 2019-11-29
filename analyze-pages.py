@@ -23,6 +23,8 @@ def parse_arguments():
         help='Text to search in the articles')
     parser.add_argument('--list', default=None,
         help='List [title|authors|date|word-count|author|excerpt|content] of the articles')
+    parser.add_argument('--author-count',action='store_true',
+        help='Counts the number of articles by each author')
 
     return parser, parser.parse_args()
 
@@ -37,10 +39,25 @@ def execute_command(arguments):
             search_articles(arguments.search, articles_and_metadata)
         elif arguments.list:
             list_property(arguments.list, articles_and_metadata)
+        elif arguments.author_count:
+            author_count(articles_and_metadata)
         else:
             return False
     
     return True
+
+def author_count(articles_and_metadata):
+    author_count = {}
+
+    for title in articles_and_metadata:
+        for author in articles_and_metadata[title]['authors']:
+            if author not in author_count:
+                author_count[author] = 1
+            else:
+                author_count[author] = author_count[author] + 1
+   
+    for author in sorted(author_count):
+        print(f"{author}: {author_count[author]}")
 
 def list_property(property, articles_and_metadata):
     """
@@ -60,7 +77,8 @@ def search_articles(query, articles_and_metadata):
     Searches the articles for a string.
     Case-insensitive.
     """
-    results = 0
+    articles_with_matches = 0
+    total_matches = 0
     for title in articles_and_metadata:
         article_content = articles_and_metadata[title]["content"]
         matches = list(get_matches(query, article_content))
@@ -70,9 +88,10 @@ def search_articles(query, articles_and_metadata):
             for snippet in matches:
                 print(snippet)
             print()
-            results += 1
+            articles_with_matches += 1
+            total_matches += len(matches)
 
-    print(f"Found {results} results.")
+    print(f"Found {total_matches} mentions in {articles_with_matches} articles.")
 
 def get_matches(query, content):
     """
