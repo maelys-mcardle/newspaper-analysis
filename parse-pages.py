@@ -80,12 +80,9 @@ def extract_article(html_file):
 
         return {
             "title": metadata["page"]["title"]["main"],
-            "alt-title": metadata["page"]["title"]["alt"] if "alt" in metadata["page"]["title"] else None,
             "date": metadata["page"]["date"]["pub"],
             "authors": metadata["page"]["authors"],
             "excerpt": metadata["page"]["excerpt"] if "excerpt" in metadata["page"] else None,
-            "topics": [topic["text"] for topic in metadata["page"]["klangoo"]["keyTopics"]] if "kangloo" in metadata["page"] else [],
-            "summary": metadata["page"]["klangoo"]["summary"] if "kangloo" in metadata["page"] else None,
             "word-count": metadata["page"]["wc"],
             "content": extract_article_content(parsed_html)
         }
