@@ -21,7 +21,7 @@ def parse_arguments():
     """
     Parses the command-line arguments.
     """
-    parser = argparse.ArgumentParser(description='Download the pages from an URL lists.')
+    parser = argparse.ArgumentParser(description='Parses the downloaded pages to enable analysis.')
     parser.add_argument('--input-directory', default='downloads',
         help='Input directory for the downloaded pages')
     parser.add_argument('--output-yaml-file', default='all-articles-with-metadata.yaml',

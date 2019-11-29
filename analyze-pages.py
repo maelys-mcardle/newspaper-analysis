@@ -16,11 +16,11 @@ def parse_arguments():
     """
     Parses the command-line arguments.
     """
-    parser = argparse.ArgumentParser(description='Download the pages from an URL lists.')
+    parser = argparse.ArgumentParser(description='Helps analyze articles.')
     parser.add_argument('--input-file', default='all-articles-with-metadata.yaml',
         help='Input file for the parsed pages')
     parser.add_argument('--search', default=None,
-        help='Text to search in the articles')
+        help='Search for text in the articles')
     parser.add_argument('--list', default=None,
         help='List [title|authors|date|word-count|author|excerpt|content] of the articles')
     parser.add_argument('--author-count',action='store_true',
