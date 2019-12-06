@@ -117,7 +117,7 @@ def extract_article_content(parsed_html):
     paragraphs = article_content.split("\n")
 
     # Remove empty paragraphs and strip whitespace.
-    paragraphs = [i.strip() for i in paragraphs if i]
+    paragraphs = [i.strip() for i in paragraphs if i.strip()]
     
     return paragraphs
 
