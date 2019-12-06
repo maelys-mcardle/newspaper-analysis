@@ -91,7 +91,7 @@ def search_articles(query, articles_and_metadata):
             articles_with_matches += 1
             total_matches += len(matches)
 
-    print(f"Found {total_matches} mentions in {articles_with_matches} articles.")
+    print(f"Found {total_matches} mentions of '{query}' in {articles_with_matches} articles.")
 
 def get_matches(query, content):
     """

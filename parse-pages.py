@@ -93,49 +93,94 @@ def extract_article_content(parsed_html):
     Article body is contained in <div class="story-content" itemprop="articleBody">
     """
 
-    # Load paragraphs.
-    paragraphs = []
-    for article_body in parsed_html.find_all(itemprop="articleBody"):
-        for paragraph in article_body.find_all('p'):
-            if not paragraph.find_parent('blockquote'):
-                paragraph_text = paragraph.get_text()
-                sanitized_paragraph = sanitize_paragraph(paragraph_text)
-                paragraphs.append(sanitized_paragraph)
-    
-    # Remove empty paragraphs.
-    paragraphs = [i for i in paragraphs if i] 
+    # Load element that contains the story.
+    article_body = parsed_html.find(itemprop="articleBody")
 
+    # Remove all blockquotes, figures, etc.
+    delete_elements(article_body, [
+        ("blockquote", {}),
+        ("figure", {}),
+        ("ul", {"class": "related_links"}),
+        ("div", {"class": "pullquote-share-container"}),
+        ("script", {})])
+
+    # Append a newline after <p> and <br> tags.
+    append_newline_after_elements(article_body, ["br", "p"])
+
+    # Extract the text.
+    article_content = article_body.get_text(separator=" ")
+
+    # Remove national post pseudo-elements
+    article_content = delete_pseudo_elements(article_content)
+
+    # Split text into paragraphs.
+    paragraphs = article_content.split("\n")
+
+    # Remove empty paragraphs and strip whitespace.
+    paragraphs = [i.strip() for i in paragraphs if i]
+    
     return paragraphs
 
+def delete_elements(article, elements_to_delete):
+    """
+    Deletes the elements.
+    """
+    for tag, attributes in elements_to_delete:
+        for found_element in article.find_all(tag, attributes):
+            found_element.decompose()
 
-def sanitize_paragraph(paragraph):
+def append_newline_after_elements(article, elements_to_append):
     """
-    Remove undesired elements from the paragraph.
-    This includes removing [np_storybar] and [np-related] pseudo-elements.
+    Appends a newline after these elements.
     """
-    paragraph = strip_pseudo_tag("np_storybar", paragraph)
-    paragraph = paragraph.replace("[np-related]", "")
-    return paragraph
+    for tag in elements_to_append:
+        for matching_element in article.find_all(tag):
+            matching_element.replace_with(matching_element.text + "\n")
 
-def strip_pseudo_tag(tag_name, paragraph):
+def delete_pseudo_elements(article):
     """
-    Strips a pseudo-tag from a paragarph.
+    Removes the pseudo elements from the article.
+    """
+
+    # Remove the np_storybar. There could be many matches
+    # per article, so iterate over them.
+    remove_next_pseudo_tag = True
+    while remove_next_pseudo_tag:
+        remove_next_pseudo_tag, article = strip_pseudo_tag("np_storybar", article)
+
+    article = article.replace("[np-related]", "")
+    return article
+
+def strip_pseudo_tag(tag_name, original_paragraph):
+    """
+    Strips a pseudo-tag from a paragraph.
     """
 
     cleansed_paragraph = ""
-    start = paragraph.find(f"[{tag_name}")
-    end = paragraph.find(f"[/{tag_name}]")
+    found_match = False
+    start_of_opening_tag = original_paragraph.find(f"[{tag_name}")
+    start_of_closing_tag = original_paragraph.find(f"[/{tag_name}]")
 
-    if (start == -1 and end == -1):
-        cleansed_paragraph = paragraph
+    # Did not find closing/opening tag.
+    if (start_of_opening_tag == -1 and start_of_closing_tag == -1):
+        cleansed_paragraph = original_paragraph
+        found_match = False
+
+    # Found a closing or opening tag.
     else:
-        if (start >= 0):
-            cleansed_paragraph += paragraph[:start]
+        # Indicate match was found.
+        found_match = True
 
-        if (end >= 0):
-            cleansed_paragraph += paragraph[end + len(f"[/{tag_name}]"):]
-    
-    return cleansed_paragraph
+        # Grab everything before the opening tag, if there's anything there.
+        if (start_of_opening_tag > 0):
+            cleansed_paragraph += original_paragraph[:start_of_opening_tag]
+
+        # Grab everything after the closing tag, if there's anything there.
+        end_of_closing_tag = start_of_closing_tag + len(f"[/{tag_name}]")
+        if (start_of_closing_tag >= 0 and end_of_closing_tag < len(original_paragraph) - 1):
+            cleansed_paragraph += original_paragraph[end_of_closing_tag:]
+
+    return found_match, cleansed_paragraph
 
 def write_to_yaml_file(yaml_file, article):
     """
