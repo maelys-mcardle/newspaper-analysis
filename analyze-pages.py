@@ -7,10 +7,7 @@ def main_function():
     The main function for this script.
     """
     argument_parser, arguments = parse_arguments()
-
-    ran_command = execute_command(arguments)
-
-    if not ran_command:
+    if not execute_command(arguments):
         argument_parser.print_help()
 
 def parse_arguments():

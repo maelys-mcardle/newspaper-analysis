@@ -29,6 +29,6 @@ To then analyze these articles, run the `analyze-pages.py` script.
 
 This will retrieve the data from, by default, the `all-articles-with-metadata.yaml` file.
 
-This can search the articles for a string of text, list properties of each article (eg. title or date),
-and give a count of articles produced by individual authors. See the `--help` information for more
-details on usage.
+This can search the articles for a string of text, fetch statistics such as the total number of articles
+and paragraphs, give a count of how many articles were produced each year, and how many articles
+each author contributed. See the `--help` information for details on usage.
