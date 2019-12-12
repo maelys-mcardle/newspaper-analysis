@@ -21,6 +21,8 @@ def parse_arguments():
         help='Search for text in the articles')
     parser.add_argument('--list', default=None,
         help='List [title|authors|date|word-count|author|excerpt|content] of the articles')
+    parser.add_argument('--sort', action='store_true',
+        help='Sorts output (only applicable to --list).')
     parser.add_argument('--statistics', action='store_true',
         help='Gives basic statistics about the articles.')
     parser.add_argument('--count-articles', action='store_true',
@@ -46,7 +48,7 @@ def execute_command(arguments):
         if arguments.search:
             search_articles(arguments.search, articles_and_metadata)
         elif arguments.list:
-            list_property(arguments.list, articles_and_metadata)
+            list_property(arguments.list, articles_and_metadata, arguments.sort)
         elif arguments.statistics:
             show_statistics(articles_and_metadata)
         elif arguments.count_articles:
@@ -159,18 +161,27 @@ def print_all_items_in_dict(all_items):
     for item in sorted(all_items):
         print(f"{item}".rjust(longest_item) + f": {all_items[item]}")
 
-def list_property(property, articles_and_metadata):
+def list_property(property, articles_and_metadata, sort):
     """
     Lists a given property.
     """
+    contents = []
     for title in articles_and_metadata:
         try:
-            print(articles_and_metadata[title][property])
+            contents.append(articles_and_metadata[title][property])
         except KeyError:
             valid_properties = ", ".join(articles_and_metadata[title].keys())
             print(f"'{property}' isn't a valid item to list.")
             print(f"Choices are: {valid_properties}")
             return
+    
+    # Sort in-place if applicable.
+    if sort:
+        contents.sort()
+    
+    # Print the output.
+    for item in contents:
+        print(item)
 
 def search_articles(query, articles_and_metadata):
     """
