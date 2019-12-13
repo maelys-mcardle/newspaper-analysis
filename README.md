@@ -6,9 +6,9 @@ This was written for `Python 3.8`.
 
 ## Download Articles
 
-To download the articles, run the `download-pages.py` script.
+To download the articles, run the `scripts/download-pages.py` script.
 
-It will download them from, by default, the `url-list.txt` file.
+It will download them from, by default, the `urls/all-articles.txt` file.
 
 This will load them all, by default, into the `downloads` directory.
 
@@ -16,7 +16,7 @@ This will load them all, by default, into the `downloads` directory.
 
 The previous script will have loaded articles as raw `html` files.
 
-To extract the actual articles from that, run the `parse-pages.py` script.
+To extract the actual articles from that, run the `scripts/parse-pages.py` script.
 
 This will extract all the data and put it, by default, into the `all-articles-with-metadata.yaml` 
 and `all-articles.md` files.
@@ -25,7 +25,7 @@ and `all-articles.md` files.
 
 The previous script will have extracted the articles from the raw downloaded files.
 
-To then analyze these articles, run the `analyze-pages.py` script.
+To then analyze these articles, run the `scripts/analyze-pages.py` script.
 
 This will retrieve the data from, by default, the `all-articles-with-metadata.yaml` file.
 

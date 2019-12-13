@@ -1,8 +1,12 @@
+#
+# CONFIGURATION FILE FOR THE SCRIPTS
+#
+
 # File/directory paths
 paths:
 
   # File containing the list of URLs
-  urls: url-list.txt
+  urls: urls/all-articles.txt
 
   # Directory for the downloaded pages
   downloads: downloads
