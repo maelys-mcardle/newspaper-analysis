@@ -81,11 +81,24 @@ def extract_article(html_file):
         return {
             "title": metadata["page"]["title"]["main"],
             "date": metadata["page"]["date"]["pub"],
-            "authors": metadata["page"]["authors"],
+            "authors": extract_authors(parsed_html),
             "excerpt": metadata["page"]["excerpt"] if "excerpt" in metadata["page"] else None,
             "word-count": metadata["page"]["wc"],
             "content": extract_article_content(parsed_html)
         }
+
+def extract_authors(parsed_html):
+    """
+    Extracts each author from the page.
+    """
+
+    # Load the elements that contain the authors.
+    all_author_elements = parsed_html.find_all(itemprop="author")
+
+    # Get the authors.
+    authors = [author_element.get_text().strip() for author_element in all_author_elements]
+
+    return authors
 
 def extract_article_content(parsed_html):
     """

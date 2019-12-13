@@ -141,11 +141,11 @@ def count_by_author(articles_and_metadata):
     author_count = {}
 
     for title in articles_and_metadata:
-        for author in articles_and_metadata[title]['authors']:
-            if author not in author_count:
-                author_count[author] = 1
-            else:
-                author_count[author] = author_count[author] + 1
+        author = ", ".join(articles_and_metadata[title]['authors'])
+        if author not in author_count:
+            author_count[author] = 1
+        else:
+            author_count[author] = author_count[author] + 1
    
     print_all_items_in_dict(author_count)
 
