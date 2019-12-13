@@ -95,10 +95,34 @@ def extract_authors(parsed_html):
     # Load the elements that contain the authors.
     all_author_elements = parsed_html.find_all(itemprop="author")
 
-    # Get the authors.
+    # Get the authors from the body.
     authors = [author_element.get_text().strip() for author_element in all_author_elements]
 
+    # Get the authors from the title as well; sometimes that's the only location it's found.
+    if ":" in parsed_html.title.string:
+        title_author = parsed_html.title.string.split(":")[0].strip()
+        if title_author not in authors:
+            authors.append(title_author)
+    
+    # Remove meta-authors.
+    authors = remove_authors(authors, [
+        "Special to National Post", 
+        "National Post", 
+        "NP View", 
+        "Blog Nuggets"])
+
     return authors
+
+def remove_authors(author_list, authors_to_remove):
+    """
+    Removes the authors from all authors.
+    """
+    for author_to_remove in authors_to_remove:
+        # If this would remove the last author, leave it in.
+        if len(author_list) > 1:
+            if author_to_remove in author_list:
+                author_list.remove(author_to_remove)
+    return author_list
 
 def extract_article_content(parsed_html):
     """
