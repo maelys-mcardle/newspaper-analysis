@@ -4,6 +4,7 @@ import json
 from os import listdir
 from os.path import isfile, join
 import yaml
+from munch import munchify 
 
 def main_function():
     """
@@ -11,25 +12,31 @@ def main_function():
     """
     arguments = parse_arguments()
 
-    input_files = get_input_files(arguments.input_directory)
+    load_config(arguments.config)
+
+    input_files = get_input_files(config.paths.downloads)
 
     input_articles = parse_all_files(input_files)
 
-    write_output_files(input_articles, arguments.output_yaml_file, arguments.output_markdown_file)
+    write_output_files(input_articles, config.paths.articles.metadata, config.paths.articles.text)
 
 def parse_arguments():
     """
     Parses the command-line arguments.
     """
     parser = argparse.ArgumentParser(description='Parses the downloaded pages to enable analysis.')
-    parser.add_argument('--input-directory', default='downloads',
-        help='Input directory for the downloaded pages')
-    parser.add_argument('--output-yaml-file', default='all-articles-with-metadata.yaml',
-        help='Output file for the parsed pages')
-    parser.add_argument('--output-markdown-file', default='all-articles.md',
-        help='Output file for the parsed pages')
+    parser.add_argument('--config', default='config.yaml',
+        help='Configuration file for the options of this script')
 
     return parser.parse_args()
+
+def load_config(config_path):
+    """
+    Loads the configuration file.
+    """
+    global config
+    with open(config_path) as config_file:
+        config = munchify(yaml.safe_load(config_file))
 
 def get_input_files(input_directory):
     """
@@ -105,11 +112,7 @@ def extract_authors(parsed_html):
             authors.append(title_author)
     
     # Remove meta-authors.
-    authors = remove_authors(authors, [
-        "Special to National Post", 
-        "National Post", 
-        "NP View", 
-        "Blog Nuggets"])
+    authors = remove_authors(authors, config.authors.remove)
 
     return authors
 

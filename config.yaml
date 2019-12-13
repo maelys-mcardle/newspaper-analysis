@@ -1,0 +1,29 @@
+# File/directory paths
+paths:
+
+  # File containing the list of URLs
+  urls: url-list.txt
+
+  # Directory for the downloaded pages
+  downloads: downloads
+
+  # Locations for the parsed articles
+  articles:
+    # File for the parsed articles (just title and text)
+    text: all-articles.md
+
+    # File for the parsed pages (everything)
+    metadata: all-articles-with-metadata.yaml
+
+authors:  
+  # Authors to remove from the authors list
+  # Note that it will always leave one author in there
+  remove:
+  - There is no such thing as ‘transracial’
+  - On genderless passports
+  - Special to National Post
+  - National Post
+  - NP View
+  - Blog Nuggets
+  - Robyn Urback on Avery Edison
+  - Todd
