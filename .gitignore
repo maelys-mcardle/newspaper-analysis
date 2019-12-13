@@ -1,4 +1,3 @@
-downloads
-download-positive
-all-*articles.md
-all-*articles-with-metadata.yaml
+download*/
+*articles-text.md
+*articles-data.yaml

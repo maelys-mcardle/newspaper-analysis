@@ -14,10 +14,10 @@ paths:
   # Locations for the parsed articles
   articles:
     # File for the parsed articles (just title and text)
-    text: all-articles.md
+    text: all-articles-text.md
 
     # File for the parsed pages (everything)
-    data: all-articles-with-metadata.yaml
+    data: all-articles-data.yaml
 
 authors:  
   # Authors to remove from the authors list
