@@ -3,6 +3,8 @@ import os.path
 import os
 import argparse
 import hashlib
+import yaml
+from munch import munchify 
 
 def main_function():
     """
@@ -10,21 +12,29 @@ def main_function():
     """
     arguments = parse_arguments()
 
-    url_list = extract_urls(arguments.input_file)
+    load_config(arguments.config)
 
-    download_files(url_list, arguments.output_directory)
+    url_list = extract_urls(config.paths.urls)
+
+    download_files(url_list, config.paths.downloads)
 
 def parse_arguments():
     """
     Parses the command-line arguments.
     """
     parser = argparse.ArgumentParser(description='Download the pages from an URL lists.')
-    parser.add_argument('--input-file', default='url-list.txt',
-        help='File containing the list of URLs')
-    parser.add_argument('--output-directory', default='downloads',
-        help='Output directory for the downloaded pages')
+    parser.add_argument('--config', default='config.yaml',
+        help='Configuration file for the options of this script')
 
     return parser.parse_args()
+
+def load_config(config_path):
+    """
+    Loads the configuration file.
+    """
+    global config
+    with open(config_path) as config_file:
+        config = munchify(yaml.safe_load(config_file))
 
 def extract_urls(input_file_path):
     """

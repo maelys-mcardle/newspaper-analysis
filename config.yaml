@@ -13,7 +13,7 @@ paths:
     text: all-articles.md
 
     # File for the parsed pages (everything)
-    metadata: all-articles-with-metadata.yaml
+    data: all-articles-with-metadata.yaml
 
 authors:  
   # Authors to remove from the authors list

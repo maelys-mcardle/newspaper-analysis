@@ -18,7 +18,7 @@ def main_function():
 
     input_articles = parse_all_files(input_files)
 
-    write_output_files(input_articles, config.paths.articles.metadata, config.paths.articles.text)
+    write_output_files(input_articles, config.paths.articles.data, config.paths.articles.text)
 
 def parse_arguments():
     """

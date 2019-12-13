@@ -1,12 +1,17 @@
 import argparse
 import yaml
 import datetime
+import yaml
+from munch import munchify
 
 def main_function():
     """
     The main function for this script.
     """
     argument_parser, arguments = parse_arguments()
+    
+    load_config(arguments.config)
+    
     if not execute_command(arguments):
         argument_parser.print_help()
 
@@ -15,8 +20,8 @@ def parse_arguments():
     Parses the command-line arguments.
     """
     parser = argparse.ArgumentParser(description='Helps analyze articles.')
-    parser.add_argument('--input-file', default='all-articles-with-metadata.yaml',
-        help='Input file for the parsed pages')
+    parser.add_argument('--config', default='config.yaml',
+        help='Configuration file for the options of this script')
     parser.add_argument('--search', default=None,
         help='Search for text in the articles')
     parser.add_argument('--list', default=None,
@@ -38,11 +43,19 @@ def parse_arguments():
  
     return parser, parser.parse_args()
 
+def load_config(config_path):
+    """
+    Loads the configuration file.
+    """
+    global config
+    with open(config_path) as config_file:
+        config = munchify(yaml.safe_load(config_file))
+
 def execute_command(arguments):
     """
     Executes the command.
     """
-    with open(arguments.input_file) as input_file:
+    with open(config.paths.articles.data) as input_file:
         articles_and_metadata = yaml.safe_load(input_file)
 
         if arguments.search:
