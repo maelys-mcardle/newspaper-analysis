@@ -6,18 +6,18 @@
 paths:
 
   # File containing the list of URLs
-  urls: urls/all-articles.txt
+  urls: urls/negative-articles.txt
 
   # Directory for the downloaded pages
-  downloads: downloads
+  downloads: downloads-negative
 
   # Locations for the parsed articles
   articles:
     # File for the parsed articles (just title and text)
-    text: all-articles-text.md
+    text: negative-articles-text.md
 
     # File for the parsed pages (everything)
-    data: all-articles-data.yaml
+    data: negative-articles-data.yaml
 
 authors:  
   # Authors to remove from the authors list

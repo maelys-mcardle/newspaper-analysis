@@ -4,29 +4,43 @@ This code loads articles from a particular newspaper for data analysis.
 
 This was written for `Python 3.8`.
 
-## Download Articles
+## Setting Up Scripts
 
-To download the articles, run the `scripts/download-pages.py` script.
+Set-up the python requirements by invoking the following:
+
+```
+python -m pip install -r requirements.txt
+```
+
+## Running Scripts
+
+The newspaper articles must be *downloaded* and then *extracted* before they can
+be *analyzed*. There's a `config.yaml` file that sets up where files and 
+directories will be created.
+
+### Download Articles
+
+To download the articles, run the `scripts/newspaper-download.py` script.
 
 It will download them from, by default, the `urls/all-articles.txt` file.
 
 This will load them all, by default, into the `downloads` directory.
 
-## Extract Articles From Raw Data
+### Extract Articles From Raw Data
 
 The previous script will have loaded articles as raw `html` files.
 
-To extract the actual articles from that, run the `scripts/parse-pages.py` script.
+To extract the actual articles from that, run the `scripts/newspaper-extract.py` script.
 
 This will extract all the data and put it, by default, into the `all-articles-data.yaml`.
 The contents of the articles are extracted in human-readable format to the
 `all-articles-text.md` file.
 
-## Perform Data Analysis
+### Perform Data Analysis
 
 The previous script will have extracted the articles from the raw downloaded files.
 
-To then analyze these articles, run the `scripts/analyze-pages.py` script.
+To then analyze these articles, run the `scripts/newspaper-analyze.py` script.
 
 This will retrieve the data from, by default, the `all-articles-data.yaml` file.
 
