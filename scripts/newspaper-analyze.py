@@ -164,7 +164,27 @@ def count_by_author(all_articles):
     print_all_items_in_dict(author_count)
 
 def print_all_items_in_dict(all_items):
+    """
+    Prints all items in a dictionary.
+    """
+    if config.output.csv:
+        print_all_items_in_dict_for_csv(all_items)
+    else:
+        print_all_items_in_dict_for_human(all_items)
 
+def print_all_items_in_dict_for_csv(all_items):
+    """
+    Prints all items in a dictionary.
+    Output meant for csv.
+    """
+    for item in sorted(all_items):
+        print(f"{item},{all_items[item]}")
+
+def print_all_items_in_dict_for_human(all_items):
+    """
+    Prints all items in a dictionary.
+    Output meant for human consumption.
+    """
     # Find the length of the longest item.
     longest_item = 0
     for item in all_items:

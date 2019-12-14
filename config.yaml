@@ -31,3 +31,9 @@ authors:
   - Blog Nuggets
   - Robyn Urback on Avery Edison
   - Todd
+
+output:
+
+  # Output the analysis in CSV-friendly format.
+  # Otherwise prints in terminal-friendly format.
+  csv: true
