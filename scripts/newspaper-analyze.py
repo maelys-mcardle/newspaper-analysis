@@ -25,6 +25,8 @@ def parse_arguments():
         help='Configuration file for the options of this script')
     parser.add_argument('--search', default=None,
         help='Search for text in the articles')
+    parser.add_argument('--case-sensitive', action='store_true',
+        help='Makes search case-senstive (only applicatble to --search)')
     parser.add_argument('--list', default=None,
         help='List [title|authors|date|word-count|author|excerpt|content] of the articles')
     parser.add_argument('--sort', action='store_true',
@@ -60,7 +62,7 @@ def execute_command(arguments):
         all_articles = yaml.safe_load(input_file)
 
         if arguments.search:
-            search_articles(arguments.search, all_articles)
+            search_articles(arguments.search, arguments.case_sensitive, all_articles)
         elif arguments.list:
             list_property(arguments.list, all_articles, arguments.sort)
         elif arguments.statistics:
@@ -217,16 +219,15 @@ def list_property(property, all_articles, sort):
     for item in contents:
         print(item)
 
-def search_articles(query, all_articles):
+def search_articles(query, case_sensitive, all_articles):
     """
     Searches the articles for a string.
-    Case-insensitive.
     """
     articles_with_matches = 0
     total_matches = 0
     for title in all_articles:
         article_content = all_articles[title]["content"]
-        matches = list(get_matches(query, article_content))
+        matches = list(get_matches(query, case_sensitive, article_content))
 
         if matches:
             print(f"{title}:")
@@ -238,7 +239,7 @@ def search_articles(query, all_articles):
 
     print(f"Found {total_matches} mentions of '{query}' in {articles_with_matches} articles.")
 
-def get_matches(query, content):
+def get_matches(query, case_sensitive, content):
     """
     Show snippets for the matches.
     """
@@ -249,7 +250,9 @@ def get_matches(query, content):
     match_start = -1
 
     while True:
-        match_start = content.upper().find(query.upper(), match_start + 1)
+        search_content = content if case_sensitive else content.upper()
+        search_query = query if case_sensitive else query.upper()
+        match_start = search_content.find(search_query, match_start + 1)
 
         if match_start == -1:
             break
