@@ -37,3 +37,8 @@ output:
   # Output the analysis in CSV-friendly format.
   # Otherwise prints in terminal-friendly format.
   csv: true
+
+  search:
+    
+    # How many characters to make the search preview.
+    preview: 30

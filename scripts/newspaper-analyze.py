@@ -244,7 +244,7 @@ def get_matches(query, case_sensitive, content):
     Show snippets for the matches.
     """
 
-    margin = 30
+    margin = config.output.search.preview
     query_len = len(query)
     content_len = len(content)
     match_start = -1
