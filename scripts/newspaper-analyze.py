@@ -57,76 +57,76 @@ def execute_command(arguments):
     Executes the command.
     """
     with open(config.paths.articles.data) as input_file:
-        articles_and_metadata = yaml.safe_load(input_file)
+        all_articles = yaml.safe_load(input_file)
 
         if arguments.search:
-            search_articles(arguments.search, articles_and_metadata)
+            search_articles(arguments.search, all_articles)
         elif arguments.list:
-            list_property(arguments.list, articles_and_metadata, arguments.sort)
+            list_property(arguments.list, all_articles, arguments.sort)
         elif arguments.statistics:
-            show_statistics(articles_and_metadata)
+            show_statistics(all_articles)
         elif arguments.count_articles:
-            count_articles(articles_and_metadata)
+            count_articles(all_articles)
         elif arguments.count_words:
-            count_words(articles_and_metadata)
+            count_words(all_articles)
         elif arguments.count_paragraphs:
-            count_paragraphs(articles_and_metadata)
+            count_paragraphs(all_articles)
         elif arguments.count_by_author:
-            count_by_author(articles_and_metadata)
+            count_by_author(all_articles)
         elif arguments.count_by_year:
-            count_by_year(articles_and_metadata)
+            count_by_year(all_articles)
         else:
             return False
     
     return True
 
-def show_statistics(articles_and_metadata):
+def show_statistics(all_articles):
     """
     Gives basic statistics.
     """
     print("BASIC STATISTICS")
-    count_articles(articles_and_metadata)
-    count_paragraphs(articles_and_metadata)
-    count_words(articles_and_metadata)
+    count_articles(all_articles)
+    count_paragraphs(all_articles)
+    count_words(all_articles)
     print()
 
     print("ARTICLES BY YEAR")
-    count_by_year(articles_and_metadata)
+    count_by_year(all_articles)
     print()
 
     print("ARTICLES BY AUTHOR")
-    count_by_author(articles_and_metadata)
+    count_by_author(all_articles)
     print()
 
-def count_articles(articles_and_metadata):
+def count_articles(all_articles):
     """
     Counts the total number of paragraphs written.
     """
-    print(f"There are {len(articles_and_metadata)} articles.")
+    print(f"There are {len(all_articles)} articles.")
 
-def count_paragraphs(articles_and_metadata):
+def count_paragraphs(all_articles):
     """
     Counts the total number of paragraphs written.
     """
     total_paragraphs = 0
-    for title in articles_and_metadata:
-        total_paragraphs += articles_and_metadata[title]['content'].count('\n')
+    for title in all_articles:
+        total_paragraphs += all_articles[title]['content'].count('\n')
     print(f"There are {total_paragraphs} paragraphs written.")
 
-def count_words(articles_and_metadata):
+def count_words(all_articles):
     """
     Counts the total number of words written.
     """
     total_words = 0
-    for title in articles_and_metadata:
-        total_words += articles_and_metadata[title]['word-count']
+    for title in all_articles:
+        total_words += all_articles[title]['word-count']
     print(f"There are {total_words} words written.")
 
-def count_by_year(articles_and_metadata):
+def count_by_year(all_articles):
     """
     Counts all the articles done each year.
     """
-    all_dates = get_all_dates(articles_and_metadata)
+    all_dates = get_all_dates(all_articles)
     year_count = {}
 
     for date in all_dates:
@@ -137,25 +137,25 @@ def count_by_year(articles_and_metadata):
 
     print_all_items_in_dict(year_count)
 
-def get_all_dates(articles_and_metadata):
+def get_all_dates(all_articles):
     """
     Gets all the dates from the articles.
     """
     all_dates = []
-    for title in articles_and_metadata:
-        date_as_string = articles_and_metadata[title]['date']
+    for title in all_articles:
+        date_as_string = all_articles[title]['date']
         date_as_datetime = datetime.datetime.strptime(date_as_string, "%Y-%m-%dT%H:%M:%SZ")
         all_dates.append(date_as_datetime)
     return all_dates
 
-def count_by_author(articles_and_metadata):
+def count_by_author(all_articles):
     """
     Gets the count of articles done by each author.
     """
     author_count = {}
 
-    for title in articles_and_metadata:
-        author = ", ".join(articles_and_metadata[title]['authors'])
+    for title in all_articles:
+        author = ", ".join(all_articles[title]['authors'])
         if author not in author_count:
             author_count[author] = 1
         else:
@@ -175,16 +175,16 @@ def print_all_items_in_dict(all_items):
     for item in sorted(all_items):
         print(f"{item}".rjust(longest_item) + f": {all_items[item]}")
 
-def list_property(property, articles_and_metadata, sort):
+def list_property(property, all_articles, sort):
     """
     Lists a given property.
     """
     contents = []
-    for title in articles_and_metadata:
+    for title in all_articles:
         try:
-            contents.append(articles_and_metadata[title][property])
+            contents.append(all_articles[title][property])
         except KeyError:
-            valid_properties = ", ".join(articles_and_metadata[title].keys())
+            valid_properties = ", ".join(all_articles[title].keys())
             print(f"'{property}' isn't a valid item to list.")
             print(f"Choices are: {valid_properties}")
             return
@@ -197,15 +197,15 @@ def list_property(property, articles_and_metadata, sort):
     for item in contents:
         print(item)
 
-def search_articles(query, articles_and_metadata):
+def search_articles(query, all_articles):
     """
     Searches the articles for a string.
     Case-insensitive.
     """
     articles_with_matches = 0
     total_matches = 0
-    for title in articles_and_metadata:
-        article_content = articles_and_metadata[title]["content"]
+    for title in all_articles:
+        article_content = all_articles[title]["content"]
         matches = list(get_matches(query, article_content))
 
         if matches:
