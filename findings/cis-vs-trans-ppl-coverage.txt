@@ -1,0 +1,70 @@
+:: Looked at sample of 11 named cis people.
+:: All have reputed anti-trans bias.
+:: All are spoken of exclusively favourably (569 times in 118 articles).
+:: None are ever mentioned unfavourably.
+
+:: Looked at sample of 11 named trans people.
+:: 7 of the 11 are spoken of exclusively unfavourably (95 mentions in 17 articles).
+:: 2 of the 11 are spoken of exclusively favourably, but are reputed for their anti-trans bias (8 times in 2 articles).
+:: 1 of the 9 is spoken of exclusively favourably (18 mentions in 1 article).
+:: 1 of the 9 is spoken of both favourably and unfavourably in different articles (unfavourably: 30 mentions in 7 articles, favourably: 29 mentions in 4 articles).
+
+ARTICLES COMMUNICATING OPPOSITION TO THE ACCEPTANCE OF TRANS PEOPLE
+
+Cis people with reputed anti-trans bias: [FAVOURABLE COVERAGE]
+Found 257 mentions of Jordan Peterson in 59 articles.
+Found 179 mentions of Lindsay Shepherd in 29 articles.
+Found 38 mentions of Meghan Murphy in 9 articles.
+Found 25 mentions of Germaine Greer in 3 articles.
+Found 20 mentions of Kenneth Zucker in 3 articles.
+Found 13 mentions of Susan Bradley in 4 articles.
+Found 11 mentions of Ray Blanchard in 3 articles.
+Found 11 mentions of J. Michael Bailey in 2 articles.
+Found 6 mentions of Paul McHugh in 2 articles.
+Found 5 mentions of Lisa Littman in 1 article.
+Found 4 mentions of Bruce Pardy in 3 articles.
+
+Trans people: [UNFAVOURABLE COVERAGE]
+Found 30 mentions of Caitlyn Jenner in 7 articles.
+Found 27 mentions of Mary Bryson in 2 articles.
+Found 22 mentions of Jenna Talackova in 3 articles.
+Found 17 mentions of Jessica Yaniv in 4 articles.
+Found 17 mentions of Morgane Oger in 4 articles.
+Found 5 mentions of A.W. Peet in 2 articles.
+Found 5 mentions of Neil Hope in 1 article.
+Found 2 mentions of Karen White in 1 article.
+Found 0 mentions of Avery Edison in 0 articles.
+
+Trans people with reputed anti-trans bias: [FAVOURABLE COVERAGE]
+Found 7 mentions of Camille Paglia in 1 articles.
+Found 1 mention of Blaire White in 1 article.
+
+ARTICLES COMMUNICATING SUPPORT TO THE ACCEPTANCE OF TRANS PEOPLE
+
+Cis people with reputed anti-trans bias: [NO COVERAGE]
+Found 0 mentions of Jordan Peterson in 0 articles.
+Found 0 mentions of Lindsay Shepherd in 0 articles.
+Found 0 mentions of Meghan Murphy in 0 articles.
+Found 0 mentions of Germaine Greer in 0 articles.
+Found 0 mentions of Kenneth Zucker in 0 articles.
+Found 0 mentions of Susan Bradley in 0 articles.
+Found 0 mentions of Ray Blanchard in 0 articles.
+Found 0 mentions of J. Michael Bailey in 0 articles.
+Found 0 mentions of Paul McHugh in 0 articles.
+Found 0 mentions of Lisa Littman in 0 article.
+Found 0 mentions of Bruce Pardy in 0 articles.
+
+Trans people: [FAVOURABLE COVERAGE]
+Found 29 mentions of Caitlyn Jenner in 4 articles.
+Found 0 mentions of Mary Bryson in 0 articles.
+Found 0 mentions of Jenna Talackova in 0 articles.
+Found 0 mentions of Jessica Yaniv in 0 articles.
+Found 0 mentions of Morgane Oger in 0 articles.
+Found 0 mentions of A.W. Peet in 0 articles.
+Found 0 mentions of Neil Hope in 0 article.
+Found 0 mentions of Karen White in 0 article.
+Found 18 mentions of Avery Edison in 1 articles.
+
+Trans people with reputed anti-trans bias: [NO COVERAGE]
+Found 0 mentions of Camille Paglia in 0 articles.
+Found 0 mention of Blaire White in 0 article.
