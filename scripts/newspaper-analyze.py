@@ -2,7 +2,7 @@
 import argparse
 import yaml
 import datetime
-import yaml
+import math
 from munch import munchify
 
 def main_function():
@@ -23,15 +23,15 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Helps analyze articles.')
     parser.add_argument('--config', default='config.yaml',
         help='Configuration file for the options of this script')
-    parser.add_argument('--search', default=None,
+    parser.add_argument('--search', default=None, type=str,
         help='Search for text in the articles')
     parser.add_argument('--case-sensitive', action='store_true',
         help='Makes search case-senstive (only applicatble to --search)')
-    parser.add_argument('--list', default=None,
+    parser.add_argument('--list', default=None, type=str,
         help='List [title|authors|date|word-count|author|excerpt|content] of the articles')
     parser.add_argument('--sort', action='store_true',
         help='Sorts output (only applicable to --list).')
-    parser.add_argument('--sort-by', default=None,
+    parser.add_argument('--sort-by', default=None, type=str,
         help='Sorts output by another attribute [title|author|date] (only applicable to --list)')
     parser.add_argument('--statistics', action='store_true',
         help='Gives basic statistics about the articles.')
@@ -45,6 +45,8 @@ def parse_arguments():
         help='Counts the number of articles by each author')
     parser.add_argument('--count-by-year', action='store_true',
         help='Counts the number of articles bucketed by year')
+    parser.add_argument('--count-by-months', default=None, type=int,
+        help='Counts the number of articles bucketed by number of months')
  
     return parser, parser.parse_args()
 
@@ -79,6 +81,8 @@ def execute_command(arguments):
             count_by_author(all_articles)
         elif arguments.count_by_year:
             count_by_year(all_articles)
+        elif arguments.count_by_months:
+            count_by_months(all_articles, arguments.count_by_months)
         else:
             return False
     
@@ -140,6 +144,28 @@ def count_by_year(all_articles):
             year_count[date.year] = 1
 
     print_all_items_in_dict(year_count)
+
+def count_by_months(all_articles, number_of_months):
+    """
+    Counts all the articles done each year, bucketed by number of months.
+    """
+    all_dates = get_all_dates(all_articles)
+    year_and_months_count = {}
+
+    if number_of_months < 1 or number_of_months > 12:
+        print("Number of months must be between 1 and 12")
+        return
+
+    for date in all_dates:
+        month_bucket = math.floor((date.month - 1) / number_of_months) * number_of_months + 1
+        year_and_months = f"{date.year}-{str(month_bucket).zfill(2)}"
+
+        if year_and_months in year_and_months_count:
+            year_and_months_count[year_and_months] += 1
+        else:
+            year_and_months_count[year_and_months] = 1
+
+    print_all_items_in_dict(year_and_months_count)
 
 def get_all_dates(all_articles):
     """
