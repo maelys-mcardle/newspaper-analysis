@@ -31,6 +31,8 @@ def parse_arguments():
         help='List [title|authors|date|word-count|author|excerpt|content] of the articles')
     parser.add_argument('--sort', action='store_true',
         help='Sorts output (only applicable to --list).')
+    parser.add_argument('--sort-by', default=None,
+        help='Sorts output by another attribute [title|author|date] (only applicable to --list)')
     parser.add_argument('--statistics', action='store_true',
         help='Gives basic statistics about the articles.')
     parser.add_argument('--count-articles', action='store_true',
@@ -64,7 +66,7 @@ def execute_command(arguments):
         if arguments.search:
             search_articles(arguments.search, arguments.case_sensitive, all_articles)
         elif arguments.list:
-            list_property(arguments.list, all_articles, arguments.sort)
+            list_property(arguments.list, all_articles, arguments.sort, arguments.sort_by)
         elif arguments.statistics:
             show_statistics(all_articles)
         elif arguments.count_articles:
@@ -197,27 +199,42 @@ def print_all_items_in_dict_for_human(all_items):
     for item in sorted(all_items):
         print(f"{item}".rjust(longest_item) + f": {all_items[item]}")
 
-def list_property(property, all_articles, sort):
+def list_property(property, all_articles, sort, sort_by):
     """
     Lists a given property.
     """
-    contents = []
+    contents = {}
     for title in all_articles:
         try:
-            contents.append(all_articles[title][property])
+            if sort_by:
+                key = all_articles[title][sort_by] 
+                value = all_articles[title][property]
+                contents[key] = value
+            else:
+                key = all_articles[title][property]
+                value = None
+                contents[key] = value
         except KeyError:
+            if sort_by:
+                print(f"'{property}' or '{sort_by}' isn't a valid item to list.")
+            else:
+                print(f"'{property}' isn't a valid item to list.")
             valid_properties = ", ".join(all_articles[title].keys())
-            print(f"'{property}' isn't a valid item to list.")
             print(f"Choices are: {valid_properties}")
             return
     
+    all_keys = contents.keys()
+
     # Sort in-place if applicable.
-    if sort:
-        contents.sort()
+    if sort or sort_by:
+        all_keys = sorted(all_keys)
     
     # Print the output.
-    for item in contents:
-        print(item)
+    for item_key in all_keys:
+        if sort_by:
+            print(f"{item_key}: {contents[item_key]}")
+        else:
+            print(item_key)
 
 def search_articles(query, case_sensitive, all_articles):
     """
